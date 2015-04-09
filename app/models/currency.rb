@@ -1,6 +1,6 @@
 class Currency < ActiveRecord::Base
   validates :title, presence: true
-  validates :bank, presence: true
-  validates :cost_buy, presence: true
-  validates :cost_sale, presence: true
+  validates :banks_data, presence: true
+
+  serialize :banks_data, JSON
 end

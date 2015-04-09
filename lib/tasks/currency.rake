@@ -1,17 +1,24 @@
-desc "Fetch currency"
-task :fetch_currency => :environment do
+namespace :currency do
 
-  require 'nokogiri'
-  require 'open-uri'
+  desc "Fetch currency"
+  task fetch: :environment do
+    require 'nokogiri'
+    require 'open-uri'
 
-  url = "http://minfin.com.ua/currency/banks/usd/"
-  doc = Nokogiri::HTML(open(url))
+    url = "http://minfin.com.ua/currency/banks/usd/"
+    doc = Nokogiri::HTML(open(url))
 
+    title = doc.title
+    banks_html = doc.css('#smTable .list tr')
 
-  title = doc.xpath("/html/body/div[2]/div[1]/div[2]/div[3]/a").text
-  bank = doc.xpath("//*[@id='smTable']/tbody/tr/td[1]/a").text.scan(/[а-яА-ЯёЁ]+/)
-  cost_buy = doc.xpath("//*[@id='smTable']/tbody/tr/td[2]").text.scan(/(\d+[,.]\d+)/)
-  cost_sale = doc.xpath("//*[@id='smTable']/tbody/tr/td[4]").text.scan(/(\d+[,.]\d+)/)
+    banks = banks_html.map do |bank|
+      {
+        name: bank.css('.mfcur-table-bankname').text.squish,
+        buy:  bank.css('.mfm-pr0').first.text.squish,
+        sale: bank.css('.mfm-pl0').first.text.squish
+      }
+    end
 
-  Currency.create(title: title, bank: bank, cost_buy: cost_buy, cost_sale: cost_sale)
+    Currency.create(title: title, banks_data: banks)
+  end
 end
