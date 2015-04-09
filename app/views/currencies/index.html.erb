@@ -1,0 +1,7 @@
+<table>
+  <%= content_tag_for(:tr, @currencies) do |c| %>
+    <td><%= c.bank.split %></td>
+    <td><%= c.cost_buy %></td>
+    <td><%= c.cost_sale %></td>
+<% end %>
+</table>
