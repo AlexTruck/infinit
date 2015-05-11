@@ -1,18 +1,19 @@
-<p>
-  <%= @currency.title %>
-</p>
+<h1><%= @currency.title %></h1>
 
-<p>
-  <strong>Банк:</strong>
-  <%= @currency.bank %>
-</p>
+<table>
+  <thead>
+  <tr>
+    <th>Банк</th>
+    <th>Покупка</th>
+    <th>Продажа</th>
+  </tr>
+  </thead>
 
-<p>
-  <strong>Покупка:</strong>
-  <%= @currency.cost_buy %>
-</p>
-
-<p>
-  <strong>Продажа:</strong>
-  <%= @currency.cost_sale %>
-</p>
+  <% @currency.banks_data.each do |bank| %>
+      <tr>
+        <td><%= bank['name'] %></td>
+        <td><%= bank['buy'] %></td>
+        <td><%= bank['sale'] %></td>
+      </tr>
+  <% end %>
+</table>

@@ -1,12 +1,5 @@
 <% @currencies.each do |c| %>
-  <table>
-    <tr><%= c.title %></tr>
-    <% c.banks_data.each do |bank| %>
-      <tr>
-        <td><%= bank['name'] %></td>
-        <td><%= bank['buy'] %></td>
-        <td><%= bank['sale'] %></td>
-      </tr>
-    <% end %>
-  </table>
+<table>
+  <tr><%= link_to c.title, currency_path(c) %></tr>
+</table>
 <% end %>
